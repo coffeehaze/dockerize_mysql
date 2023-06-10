@@ -1,0 +1,35 @@
+version: "3.5"
+services:
+  master_db:
+    container_name: "master_db"
+    restart: unless-stopped
+    build:
+      context: ./master
+      dockerfile: Dockerfile
+    ports:
+      - 3306:3306
+    networks:
+      - network_db
+    volumes:
+      - database_data_master:/var/lib/mysql
+      - ./master/config.cnf:/etc/my.cnf
+
+  slave_db:
+    container_name: "slave_db"
+    restart: unless-stopped
+    build:
+      context: ./slave
+      dockerfile: Dockerfile
+    ports:
+      - 3307:3306
+    networks:
+      - network_db
+    volumes:
+      - database_data_slave:/var/lib/mysql
+      - ./slave/config.cnf:/etc/my.cnf
+
+networks:
+  network_db:
+volumes:
+  database_data_master:
+  database_data_slave:
