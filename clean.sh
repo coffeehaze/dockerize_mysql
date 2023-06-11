@@ -1,0 +1,3 @@
+docker-compose down --remove-orphans
+docker volume rm mysql_master_slave_database_data_master mysql_master_slave_database_data_slave -f
+docker rmi mysql_master_slave_slave_db mysql_master_slave_master_db mysql_master_slave_init -f

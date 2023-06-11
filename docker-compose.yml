@@ -28,6 +28,15 @@ services:
       - database_data_slave:/var/lib/mysql
       - ./slave/config.cnf:/etc/my.cnf
 
+  init:
+    container_name: "init"
+    restart: on-failure
+    build:
+      context: ./init
+      dockerfile: Dockerfile
+    networks:
+      - network_db
+
 networks:
   network_db:
 volumes:
