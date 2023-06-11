@@ -1,6 +1,8 @@
 import sys
 import time
+import json
 import pymysql
+
 '''
 additional function utility both intent usage
 for master and slave cursor database
@@ -82,8 +84,13 @@ def slave_status(c):
   try:
     c.execute(show_slave_status_query)
     slave_status = c.fetchall()
+    columns = [column[0] for column in c.description]
+    slave_status_data = []
     for row in slave_status:
-      print(row)
+        row_data = dict(zip(columns, row))
+        slave_status_data.append(row_data)
+    json_data = json.dumps(slave_status_data, indent=4)
+    print(json_data)
   except pymysql.err.OperationalError as err:
     error_code, error_message = err.args
     print(f"Error executing query: {error_code} - {error_message}")
@@ -135,11 +142,9 @@ def entry():
 
 if __name__ == '__main__':
   try:
-      entry()
+    entry()
   except Exception as err:
-      print(f"{err} error occurred. This might be because the database servers are not ready yet.")
-      sys.exit(1)  # Exit with a non-zero status code
-  finally:
-      print("All Good. Exiting with sys status 0...")
-      print("Terminated...")
-      sys.exit(0)
+    raise Exception(f"{err} error occurred. This might be because the database servers are not ready yet.")
+  print("All Good. Exiting with sys status 0...")
+  print("Terminated...")
+  sys.exit(0)
