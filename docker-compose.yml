@@ -14,8 +14,8 @@ services:
       - database_data_master:/var/lib/mysql
       - ./master/config.cnf:/etc/my.cnf
 
-  slave_db:
-    container_name: "slave_db"
+  slave_db1:
+    container_name: "slave_db1"
     restart: unless-stopped
     build:
       context: ./slave
@@ -25,7 +25,21 @@ services:
     networks:
       - network_db
     volumes:
-      - database_data_slave:/var/lib/mysql
+      - database_data_slave1:/var/lib/mysql
+      - ./slave/config.cnf:/etc/my.cnf
+
+  slave_db2:
+    container_name: "slave_db2"
+    restart: unless-stopped
+    build:
+      context: ./slave
+      dockerfile: Dockerfile
+    ports:
+      - 3308:3306
+    networks:
+      - network_db
+    volumes:
+      - database_data_slave2:/var/lib/mysql
       - ./slave/config.cnf:/etc/my.cnf
 
   init:
@@ -34,6 +48,10 @@ services:
     build:
       context: ./init
       dockerfile: Dockerfile
+    depends_on:
+      - master_db
+      - slave_db1
+      - slave_db2
     networks:
       - network_db
 
@@ -41,4 +59,5 @@ networks:
   network_db:
 volumes:
   database_data_master:
-  database_data_slave:
+  database_data_slave1:
+  database_data_slave2:
