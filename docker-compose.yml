@@ -55,6 +55,21 @@ services:
     networks:
       - network_db
 
+  nginx:
+    image: nginx:1.20.1
+    ports:
+      - 3310:3310
+    volumes:
+      - ./lb_nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./lb_nginx:/var/log/nginx
+    depends_on:
+      - master_db
+      - slave_db1
+      - slave_db2
+      - init
+    networks:
+      - network_db
+
 networks:
   network_db:
 volumes:

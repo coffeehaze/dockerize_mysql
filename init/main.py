@@ -152,7 +152,7 @@ if __name__ == '__main__':
   try:
     entry()
   except Exception as err:
-    raise Exception(f"{err} error occurred. This might be because the database servers are not ready yet.")
+    raise Exception("error occurred. This might be because the database servers are not ready yet.")
   print("All Good. Exiting with sys status 0...")
   print("Terminated...")
   sys.exit(0)
