@@ -30,6 +30,7 @@ target/
 *.iws
 *.ipr
 .idea/
+.vscode/
 
 # eclipse project file
 .settings/
