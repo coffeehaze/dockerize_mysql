@@ -13,6 +13,74 @@
 > write
 > operations.
 
+### Configuration data
+Please consider change the database credential, read only user will available in every slave database sever
+```json
+{
+  "master": {
+    "master_database_host": "master_db",
+    "master_database_port": 3306,
+    "master_database_root_user": "root",
+    "master_database_root_password": "hh$fEt^LIr&IBKpBsHJsKZj5bmUp+(ta",
+    "write_only_users": [
+      {
+        "write_only_username": "dev_01_master",
+        "write_only_password": "h%FgaCR2ay#rNaY!Kn!cenQcJH&yDYWz",
+        "write_only_databases": [
+          "svc1db",
+          "svc2db",
+          "svc3db"
+        ],
+        "write_only_grant_types": [
+          "INSERT",
+          "UPDATE",
+          "DELETE",
+          "CREATE",
+          "ALTER",
+          "DROP"
+        ]
+      }
+    ],
+    "read_only_users": [
+      {
+        "read_only_username": "dev_01_slaves",
+        "read_only_password": "vLUeHfFcC$jSe7!^MYqInUTXfd$j#z!$",
+        "read_only_databases": [
+          "svc1db",
+          "svc2db",
+          "svc3db"
+        ],
+        "read_only_grant_types": [
+          "SELECT"
+        ]
+      }
+    ],
+    "slaves": [
+      {
+        "slave_database_host": "slave_db1",
+        "slave_database_port": 3306,
+        "slave_database_root_user": "root",
+        "slave_database_root_password": "AJqa+heUHV(PmCJ35amnC^XcCacM8h6r",
+        "slave_user": {
+          "slave_db_user": "slave_user_db1",
+          "slave_db_password": "Q)3RnhYHpzAeVN(8wjMJ#@wI*F8xkb4J"
+        }
+      },
+      {
+        "slave_database_host": "slave_db2",
+        "slave_database_port": 3306,
+        "slave_database_root_user": "root",
+        "slave_database_root_password": "sT&9!AP7KJHC2J#4VFV$H53%WBRB5Wxq",
+        "slave_user": {
+          "slave_db_user": "slave_user_db2",
+          "slave_db_password": "!W2F76YjLp7MjW$%vGatqwDP(^2eM+!)"
+        }
+      }
+    ]
+  }
+}
+```
+
 ### Docker-Compose Services Explanation
 
 - **master_db**:
