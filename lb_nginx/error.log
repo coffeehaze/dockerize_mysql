@@ -1,6 +1,0 @@
-2023/06/12 15:53:54 [emerg] 1#1: log format is not specified in /etc/nginx/nginx.conf:14
-2023/06/12 15:58:48 [emerg] 1#1: unknown log format "custom_log" in /etc/nginx/nginx.conf:15
-2023/06/12 16:00:10 [emerg] 1#1: unknown log format "custom_log_format" in /etc/nginx/nginx.conf:15
-2023/06/12 16:31:29 [emerg] 1#1: "proxy_http_version" directive is not allowed here in /etc/nginx/nginx.conf:14
-2023/06/12 16:46:24 [error] 31#31: *67 upstream timed out (110: Connection timed out) while connecting to upstream, client: 172.28.0.1, server: 0.0.0.0:3310, upstream: "172.28.0.4:3306", bytes from/to client:0/0, bytes from/to upstream:0/0
-2023/06/12 16:58:22 [emerg] 1#1: unknown directive "status_zone" in /etc/nginx/nginx.conf:15
