@@ -1,0 +1,30 @@
+{
+  "master": {
+    "database_host": "master_db",
+    "database_port": 3306,
+    "database_root_user": "root",
+    "database_root_password": "B0FyW!0350",
+    "slaves": [
+      {
+        "database_host": "slave_db1",
+        "database_port": 3306,
+        "database_root_user": "root",
+        "database_root_password": "e1X1X8mu!e",
+        "slave_user": {
+          "slave_db_user": "mydb_slave_user1",
+          "slave_db_password": "mydb_slave_user1"
+        }
+      },
+      {
+        "database_host": "slave_db2",
+        "database_port": 3306,
+        "database_root_user": "root",
+        "database_root_password": "e1X1X8mu!e",
+        "slave_user": {
+          "slave_db_user": "mydb_slave_user2",
+          "slave_db_password": "mydb_slave_user2"
+        }
+      }
+    ]
+  }
+}
