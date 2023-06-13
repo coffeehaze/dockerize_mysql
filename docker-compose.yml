@@ -60,6 +60,8 @@ services:
       - slave_db2
     networks:
       - network_db
+    volumes:
+      - ./config.json:/app/config.json
 
   nginxlb:
     container_name: "nginxlb"

@@ -1,7 +1,6 @@
 .EXPORT_ALL_VARIABLES:
 
 up:
-	cp config.json ./init
 	docker-compose up
 
 up-d:
@@ -11,7 +10,6 @@ ps:
 	docker-compose ps
 
 down:
-	rm -rf ./init/config.json
 	docker-compose down --remove-orphans
 
 master-cmd:
