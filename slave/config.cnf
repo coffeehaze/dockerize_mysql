@@ -8,7 +8,7 @@ secure-file-priv=/var/lib/mysql-files
 user=mysql
 server-id=2
 log_bin=1
-read_only=ON
+read_only=1
 pid-file=/var/run/mysqld/mysqld.pid
 
 [mysql]

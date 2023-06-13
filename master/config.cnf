@@ -8,9 +8,9 @@ secure-file-priv=/var/lib/mysql-files
 user=mysql
 server-id=1
 log_bin=1
-binlog_format=ROW  # Change binlog format to ROW for write-only mode
-log_slave_updates=OFF  # Disable slave updates to prevent writes on slaves
-read_only=ON  # Set read_only to ON for write-only access
+binlog_format=ROW
+log_slave_updates=OFF
+read_only=1
 pid-file=/var/run/mysqld/mysqld.pid
 
 [mysql]

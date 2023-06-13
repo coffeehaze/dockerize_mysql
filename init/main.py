@@ -46,7 +46,8 @@ def create_slave_user(c, user, password):
     print(f"This slave {user} its already created")
 
 def grant_privilege_slave_user(c, user):
-  grant_privileges_query = "GRANT REPLICATION SLAVE ON *.* TO %s@'%%'"
+  # grant_privileges_query = "GRANT REPLICATION SLAVE ON *.* TO %s@'%%'"
+  grant_privileges_query = "GRANT SELECT ON *.* TO %s@'%%'"
   try:
     c.execute(grant_privileges_query, (user,))
   except pymysql.err.OperationalError as err:
@@ -104,16 +105,16 @@ def entry():
   slaves = [
     {
       "port": 3306,
-      "slave_db_user": 'mydb_slave_user1',
-      "slave_db_password": 'mydb_slave_pwd1',
+      "slave_db_user": 'mydb_slave_user',
+      "slave_db_password": 'mydb_slave_pwd',
       "slave_host":"slave_db1",
       "slave_root_user":"root",
       "slave_root_password":"SlavePassword"
     },
     {
       "port": 3306,
-      "slave_db_user": 'mydb_slave_user2',
-      "slave_db_password": 'mydb_slave_pwd2',
+      "slave_db_user": 'mydb_slave_user',
+      "slave_db_password": 'mydb_slave_pwd',
       "slave_host":"slave_db2",
       "slave_root_user":"root",
       "slave_root_password":"SlavePassword"
