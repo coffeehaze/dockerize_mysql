@@ -4,7 +4,7 @@ services:
     container_name: "master_db"
     restart: unless-stopped
     build:
-      context: ./master
+      context: ./database/master
       dockerfile: Dockerfile
     ports:
       - 3306:3306
@@ -12,13 +12,13 @@ services:
       - network_db
     volumes:
       - database_data_master:/var/lib/mysql
-      - ./master/config.cnf:/etc/my.cnf
+      - ./database/master/config.cnf:/etc/my.cnf
 
   slave_db1:
     container_name: "slave_db1"
     restart: unless-stopped
     build:
-      context: ./slave
+      context: ./database/slave
       dockerfile: Dockerfile
     ports:
       - 3307:3306
@@ -26,13 +26,13 @@ services:
       - network_db
     volumes:
       - database_data_slave1:/var/lib/mysql
-      - ./slave/config.cnf:/etc/my.cnf
+      - ./database/slave/config.cnf:/etc/my.cnf
 
   slave_db2:
     container_name: "slave_db2"
     restart: unless-stopped
     build:
-      context: ./slave
+      context: ./database/slave
       dockerfile: Dockerfile
     ports:
       - 3308:3306
@@ -40,7 +40,7 @@ services:
       - network_db
     volumes:
       - database_data_slave2:/var/lib/mysql
-      - ./slave/config.cnf:/etc/my.cnf
+      - ./database/slave/config.cnf:/etc/my.cnf
 
   init:
     container_name: "init"
