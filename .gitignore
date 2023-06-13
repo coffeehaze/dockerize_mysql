@@ -57,4 +57,4 @@ pom.xml.releaseBackup
 pom.xml.tag
 
 # envs file
-*/.env
+.env
