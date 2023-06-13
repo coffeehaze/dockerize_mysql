@@ -139,6 +139,7 @@ if __name__ == '__main__':
     entry()
   except Exception as err:
     raise Exception("error occurred. This might be because the database servers are not ready yet.")
-  print("All Good. Exiting with sys status 0...")
+  print("All Good. Everything's gonna be alright.")
+  print("Terminating preparation script...")
   print("Terminated...")
   sys.exit(0)
