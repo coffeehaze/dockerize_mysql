@@ -1,0 +1,50 @@
+{
+  "master": {
+    "master_database_host": "master_db",
+    "master_database_port": 3306,
+    "master_database_root_user": "root",
+    "master_database_root_password": "B0FyW!0350",
+    "slaves": [
+      {
+        "slave_database_host": "slave_db1",
+        "slave_database_port": 3306,
+        "slave_database_root_user": "root",
+        "slave_database_root_password": "e1X1X8mu!e1",
+        "slave_user": {
+          "slave_db_user": "mydb_slave_user1",
+          "slave_db_password": "mydb_slave_user1"
+        }
+      },
+      {
+        "slave_database_host": "slave_db2",
+        "slave_database_port": 3306,
+        "slave_database_root_user": "root",
+        "slave_database_root_password": "e1X1X8mu!e2",
+        "slave_user": {
+          "slave_db_user": "mydb_slave_user2",
+          "slave_db_password": "mydb_slave_user2"
+        }
+      },
+      {
+        "slave_database_host": "slave_db3",
+        "slave_database_port": 3306,
+        "slave_database_root_user": "root",
+        "slave_database_root_password": "e1X1X8mu!e3",
+        "slave_user": {
+          "slave_db_user": "mydb_slave_user3",
+          "slave_db_password": "mydb_slave_user3"
+        }
+      },
+      {
+        "slave_database_host": "slave_db4",
+        "slave_database_port": 3306,
+        "slave_database_root_user": "root",
+        "slave_database_root_password": "e1X1X8mu!e4",
+        "slave_user": {
+          "slave_db_user": "mydb_slave_user4",
+          "slave_db_password": "mydb_slave_user4"
+        }
+      }
+    ]
+  }
+}

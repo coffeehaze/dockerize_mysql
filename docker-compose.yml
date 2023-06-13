@@ -12,7 +12,7 @@ services:
       - network_db
     volumes:
       - database_data_master:/var/lib/mysql
-      - ./database/master/config.cnf:/etc/my.cnf
+      - ./database/master/config-mst.cnf:/etc/my.cnf
 
   slave_db1:
     container_name: "slave_db1"
@@ -26,7 +26,7 @@ services:
       - network_db
     volumes:
       - database_data_slave1:/var/lib/mysql
-      - ./database/slave/config.cnf:/etc/my.cnf
+      - ./database/slave/config-slv1.cnf:/etc/my.cnf
 
   slave_db2:
     container_name: "slave_db2"
@@ -40,7 +40,7 @@ services:
       - network_db
     volumes:
       - database_data_slave2:/var/lib/mysql
-      - ./database/slave/config.cnf:/etc/my.cnf
+      - ./database/slave/config-slv2.cnf:/etc/my.cnf
 
   init:
     container_name: "init"

@@ -1,0 +1,59 @@
+[mysqld]
+# Set the default authentication plugin to mysql_native_password
+default_authentication_plugin=mysql_native_password
+
+# Skip DNS resolution for incoming connections to improve performance
+skip-host-cache
+
+# Skip reverse DNS lookup for incoming connections to improve performance
+skip-name-resolve
+
+# Specify the data directory where MySQL stores its data files
+datadir=/var/lib/mysql
+
+# Specify the socket file for communication with the MySQL server
+socket=/var/run/mysqld/mysqld.sock
+
+# Set the directory for secure file operations
+secure-file-priv=/var/lib/mysql-files
+
+# Set the user under which the MySQL server process runs
+user=mysql
+
+# Set the unique server ID for replication purposes
+server-id=3
+
+# Enable binary logging for replication purposes
+log_bin=1
+
+# Set the server to read-only mode to prevent any modifications
+read_only=1
+
+# Specify the file path for the process ID (PID) file
+pid-file=/var/run/mysqld/mysqld.pid
+
+# Set the maximum number of simultaneous connections
+max_connections=200
+
+# Set the maximum number of connections per user
+max_user_connections=50
+
+# Set the number of seconds a connection can remain idle before it is closed
+wait_timeout=180
+
+# Set the number of seconds an interactive session can remain idle before it is closed
+interactive_timeout=180
+
+# Set the maximum number of pending connections in the listen queue
+back_log=100
+
+[mysql]
+# Disable auto-rehashing to improve performance when dealing with large result sets
+no-auto-rehash
+
+[client]
+# Specify the socket file for communication with the MySQL server
+socket=/var/run/mysqld/mysqld.sock
+
+# Include additional configuration files from the specified directory
+!includedir /etc/mysql/conf.d/

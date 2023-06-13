@@ -1,9 +1,5 @@
 FROM mysql:8.0.30
 
-ENV MYSQL_ROOT_PASSWORD=SlavePassword
-ENV MYSQL_USER=my_db_user
-ENV MYSQL_DATABASE=my_db
-ENV MYSQL_PASSWORD=SlavePassword
-ENV MYSQL_GROUP_REPLICATION=FORCE_PLUS_PERMANENT
+COPY .env /etc/mysql/.env
 
 CMD ["mysqld"]
