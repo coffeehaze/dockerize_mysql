@@ -6,6 +6,8 @@ services:
     build:
       context: ./database/master
       dockerfile: Dockerfile
+    env_file:
+      - ./database/master/.env
     ports:
       - 3306:3306
     networks:
@@ -20,6 +22,8 @@ services:
     build:
       context: ./database/slave
       dockerfile: Dockerfile
+    env_file:
+      - ./database/slave/.env
     ports:
       - 3307:3306
     networks:
@@ -34,6 +38,8 @@ services:
     build:
       context: ./database/slave
       dockerfile: Dockerfile
+    env_file:
+      - ./database/slave/.env
     ports:
       - 3308:3306
     networks:

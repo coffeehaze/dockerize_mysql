@@ -7,6 +7,11 @@ import pymysql
 additional function utility both intent usage
 for master and slave cursor database
 '''
+def read_json(file_path):
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+        return data
+
 def connector(user, password, host, port):
   db = pymysql.connect(
       host=host,
@@ -97,51 +102,31 @@ def slave_status(c):
     print(f"Error executing query: {error_code} - {error_message}")
 
 def entry():
-  master_host="master_db"
-  master_port=3306
-  master_root_user="root"
-  master_root_password="MasterPassword"
+  json_data = read_json("config.json")
 
-  slaves = [
-    {
-      "port": 3306,
-      "slave_db_user": 'mydb_slave_user',
-      "slave_db_password": 'mydb_slave_pwd',
-      "slave_host":"slave_db1",
-      "slave_root_user":"root",
-      "slave_root_password":"SlavePassword"
-    },
-    {
-      "port": 3306,
-      "slave_db_user": 'mydb_slave_user',
-      "slave_db_password": 'mydb_slave_pwd',
-      "slave_host":"slave_db2",
-      "slave_root_user":"root",
-      "slave_root_password":"SlavePassword"
-    }
-  ]
-  master_cursor = connector(
-    master_root_user, 
-    master_root_password, 
-    master_host, 
-    master_port,
-  )
+  master_host = json_data['master']['master_database_host']
+  master_port = json_data['master']['master_database_port']
+  master_root_user = json_data['master']['master_database_root_user']
+  master_root_password = json_data['master']['master_database_root_password']
 
+  master_cursor = connector(master_root_user, master_root_password, master_host, master_port)
   ping(master_cursor)
+
+  slaves = json_data['master']['slaves']
   for slave in slaves:
     # slave user and password
-    slave_db_user=slave['slave_db_user']
-    slave_db_password=slave['slave_db_password']
-    port=slave['port']
-    slave_host=slave['slave_host']
-    slave_root_user=slave['slave_root_user']
-    slave_root_password=slave['slave_root_password']
+    slave_port = slave['slave_database_port']
+    slave_host = slave['slave_database_host']
+    slave_root_user = slave['slave_database_root_user']
+    slave_root_password = slave['slave_database_root_password']
+    slave_user = slave['slave_user']['slave_db_user']
+    slave_password = slave['slave_user']['slave_db_password']
 
-    create_slave_user(master_cursor, slave_db_user, slave_db_password)
-    grant_privilege_slave_user(master_cursor, slave_db_user)
+    create_slave_user(master_cursor, slave_user, slave_password)
+    grant_privilege_slave_user(master_cursor, slave_user)
     flush_privilege_slave_user(master_cursor)
 
-    slave_cursor = connector(slave_root_user, slave_root_password, slave_host, port)
+    slave_cursor = connector(slave_root_user, slave_root_password, slave_host, slave_port)
     (clog, cpos) = master_status(master_cursor)
     change_master(slave_cursor, master_host, master_root_user, master_root_password, clog, cpos)
     start_slave(slave_cursor)
