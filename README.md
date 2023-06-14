@@ -9,10 +9,16 @@
 
 > This project explores the concept of Command Query Responsibility Segregation (CQRS) and demonstrates how to implement it by using Docker to containerize MySQL replication. The system utilizes a load-balancing technique to distribute the workload between multiple slave database servers for read operations, while maintaining a single master server for write operations.
 
+
 -----------------------------------------------
 🌟 Thank you for visiting! 🌟
+
 📚  Thank you for taking the time to explore this repository. We hope you found the information useful and insightful.
+
 🤝  If you have any questions, feedback, or suggestions, please feel free to reach out. We appreciate hearing from you and value your input.
+
 ⭐️  Remember to star this repository if you found it helpful. It helps us to know that our work is making a difference.
+
 💻  Keep coding, keep learning, and keep pushing the boundaries of what's possible!
+
 -----------------------------------------------
