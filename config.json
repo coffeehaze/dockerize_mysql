@@ -6,18 +6,26 @@
     "master_database_root_password": "hh$fEt^LIr&IBKpBsHJsKZj5bmUp+(ta",
     "write_only_users": [
       {
-        "write_only_username": "slave_wo",
-        "write_only_password": "vLUeHfFcC$jSe7!^MYqInUTXfd$j#z!$",
+        "write_only_username": "dev_01_master",
+        "write_only_password": "h%FgaCR2ay#rNaY!Kn!cenQcJH&yDYWz",
         "write_only_databases": [
           "svc1db",
           "svc2db",
           "svc3db"
+        ],
+        "write_only_grant_types": [
+          "INSERT",
+          "UPDATE",
+          "DELETE",
+          "CREATE",
+          "ALTER",
+          "DROP"
         ]
       }
     ],
     "read_only_users": [
       {
-        "read_only_username": "slave_ro",
+        "read_only_username": "dev_01_slaves",
         "read_only_password": "vLUeHfFcC$jSe7!^MYqInUTXfd$j#z!$",
         "read_only_databases": [
           "svc1db",
@@ -44,7 +52,7 @@
         "slave_database_root_password": "LuCa7D8twrx@jXPE*2eAxZ*2NqyZ5Rsg",
         "slave_user": {
           "slave_db_user": "slave_user_db2",
-          "slave_db_password": "Q)3RnhYHpzAeVN(8wjMJ#@wI*F8xkb4J"
+          "slave_db_password": "!W2F76YjLp7MjW$%vGatqwDP(^2eM+!)"
         }
       }
     ]

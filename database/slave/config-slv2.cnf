@@ -45,7 +45,7 @@ interactive_timeout=180
 back_log=100
 
 # Replication Settings
-server-id=2
+server-id=3
 log_bin=master-binlog
 binlog_format=ROW
 

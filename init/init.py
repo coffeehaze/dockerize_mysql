@@ -2,11 +2,13 @@ import sys
 import json
 import pymysql
 
+errors_occurred = []
 Q_PING = "SELECT 1"
 Q_CREATE_DATABASE = "CREATE DATABASE IF NOT EXISTS `{}`"
 Q_CREATE_USER = "CREATE USER '{}'@'%' IDENTIFIED BY '{}'"
 Q_GRANT_REPLICATION_ON_SLAVE = "GRANT REPLICATION SLAVE ON *.* TO '{}'@'%'"
-Q_GRANT_SELECT_ON = "GRANT SELECT ON *.* TO '{}'@'%'"
+Q_GRANT_READ_ON = "GRANT SELECT ON {}.* TO '{}'@'%'"
+Q_GRANT_WRITE_ON = "GRANT {} ON {}.* TO '{}'@'%'"
 Q_FLUSH_PRIVILEGES = "FLUSH PRIVILEGES"
 Q_CHANGE_MASTER = "CHANGE MASTER TO " \
                   "MASTER_HOST='{}', " \
@@ -21,7 +23,9 @@ Q_SHOW_MASTER_STATUS = "SHOW MASTER STATUS"
 
 def error_print(e):
     error_code, error_message = e.args
-    print(f"[Error] {error_code} - {error_message}")
+    error = f"[Error] {error_code} - {error_message}"
+    errors_occurred.append(error)
+    print(err)
 
 
 def read_json(file_path):
@@ -72,8 +76,16 @@ class Master:
         except Exception as e:
             error_print(e)
 
-    def grant_privilege_select(self, username):
-        query = Q_GRANT_SELECT_ON.format(username)
+    def grant_privilege_read(self, username, database_name):
+        query = Q_GRANT_READ_ON.format(database_name, username)
+        print("*", query)
+        try:
+            self.c.execute(query)
+        except Exception as e:
+            error_print(e)
+
+    def grant_privilege_write(self, username, grant_type, database_name):
+        query = Q_GRANT_WRITE_ON.format(grant_type, database_name, username)
         print("*", query)
         try:
             self.c.execute(query)
@@ -196,6 +208,17 @@ def entry():
         )
         slave.start_slave()
 
+    print("\nPreparing write-only user")
+    for wo_user in json_data['master']['write_only_users']:
+        wo_username = wo_user["write_only_username"]
+        wo_password = wo_user["write_only_password"]
+        master.create_user(username=wo_username, password=wo_password)
+        for database_name in wo_user["write_only_databases"]:
+            master.create_database(database_name)
+            gt = ', '.join(wo_user["write_only_grant_types"])
+            master.grant_privilege_write(username=wo_username, grant_type=gt, database_name=database_name)
+            master.flush_privilege()
+
     print("\nPreparing read-only user")
     for ro_user in json_data['master']['read_only_users']:
         ro_username = ro_user["read_only_username"]
@@ -203,7 +226,7 @@ def entry():
         master.create_user(username=ro_username, password=ro_password)
         for database_name in ro_user["read_only_databases"]:
             master.create_database(database_name)
-            master.grant_privilege_select(username=ro_username)
+            master.grant_privilege_read(username=ro_username, database_name=database_name)
             master.flush_privilege()
 
 
@@ -212,5 +235,6 @@ if __name__ == '__main__':
         entry()
     except Exception as err:
         raise Exception("error occurred. This might be because the database servers are not ready yet.")
-    print("\nAll Good.")
+    msg = "\nNot Good" if len(errors_occurred) > 0 else "\nAll Good."
+    print(msg)
     sys.exit(0)
