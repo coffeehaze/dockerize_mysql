@@ -52,7 +52,6 @@
         - ```context : ./init/Dockerfile```
         - ```config : ./config.json```
         - ```network : network_db```
-        - ```volume : database_data_slave2```
 
 -----------------------------------------------
 
