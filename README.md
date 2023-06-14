@@ -13,8 +13,6 @@
 > operations.
 
 ### Docker-Compose Services Explanation
-Here are the explanations for each service in the provided `docker-compose.yml` file:
-
 - **master_db**: This service represents the master database. It is responsible for handling data entry (WRITE operations). It is built using the Dockerfile in the `./database/master` directory. It has its own environment file at `./database/master/.env` and is exposed on port `3311`. It is connected to the `network_db` network and has two volumes for data persistence: `database_data_master` and `./database/master/master.cnf` for the MySQL configuration file.
 
 - **slave_db1**: This service represents the first slave database. It is responsible for handling read operations. It is built using the Dockerfile in the `./database/slave` directory. It has its own environment file at `./database/slave/.env`. It is connected to the `network_db` network and has two volumes for data persistence: `database_data_slave1` and `./database/slave/slave1.cnf` for the MySQL configuration file.
