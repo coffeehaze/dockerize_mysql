@@ -4,6 +4,17 @@
     "master_database_port": 3306,
     "master_database_root_user": "root",
     "master_database_root_password": "hh$fEt^LIr&IBKpBsHJsKZj5bmUp+(ta",
+    "write_only_users": [
+      {
+        "write_only_username": "slave_wo",
+        "write_only_password": "vLUeHfFcC$jSe7!^MYqInUTXfd$j#z!$",
+        "write_only_databases": [
+          "svc1db",
+          "svc2db",
+          "svc3db"
+        ]
+      }
+    ],
     "read_only_users": [
       {
         "read_only_username": "slave_ro",

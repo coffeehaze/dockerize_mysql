@@ -53,7 +53,6 @@ class Master:
         print("*", query)
         try:
             self.c.execute(query)
-            print("+", query)
         except Exception as e:
             error_print(e)
 
@@ -62,7 +61,6 @@ class Master:
         print("*", query)
         try:
             self.c.execute(query)
-            print("+", query)
         except Exception as e:
             error_print(e)
 
@@ -71,7 +69,6 @@ class Master:
         print("*", query)
         try:
             self.c.execute(query)
-            print("+", query)
         except Exception as e:
             error_print(e)
 
@@ -80,7 +77,6 @@ class Master:
         print("*", query)
         try:
             self.c.execute(query)
-            print("+", query)
         except Exception as e:
             error_print(e)
 
@@ -89,7 +85,6 @@ class Master:
         print("*", query)
         try:
             self.c.execute(query)
-            print("+", query)
         except Exception as e:
             error_print(e)
 
@@ -101,7 +96,7 @@ class Master:
             ms_status = self.c.fetchone()
             self.clog = ms_status[0]
             self.cpos = ms_status[1]
-            print("+", query)
+
         except Exception as e:
             error_print(e)
 
@@ -127,7 +122,6 @@ class Slave:
         print("*", query)
         try:
             self.c.execute(query)
-            print("+", query)
         except Exception as e:
             error_print(e)
 
@@ -136,7 +130,6 @@ class Slave:
         print("*", query)
         try:
             self.c.execute(query)
-            print("+", query)
         except Exception as e:
             error_print(e)
 
@@ -174,6 +167,7 @@ def entry():
 
     slaves = json_data['master']['slaves']
     for s in slaves:
+        print("\nPreparing slave host", s["slave_database_host"])
         slave_user = s['slave_user']['slave_db_user']
         slave_password = s['slave_user']['slave_db_password']
         master.create_user(username=slave_user, password=slave_password)
@@ -201,8 +195,8 @@ def entry():
             cpos=master.cpos,
         )
         slave.start_slave()
-        slave.status()
 
+    print("\nPreparing read-only user")
     for ro_user in json_data['master']['read_only_users']:
         ro_username = ro_user["read_only_username"]
         ro_password = ro_user["read_only_password"]
@@ -218,5 +212,5 @@ if __name__ == '__main__':
         entry()
     except Exception as err:
         raise Exception("error occurred. This might be because the database servers are not ready yet.")
-    print("All Good.")
+    print("\nAll Good.")
     sys.exit(0)
