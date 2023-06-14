@@ -48,21 +48,6 @@ services:
       - database_data_slave2:/var/lib/mysql
       - ./database/slave/config-slv2.cnf:/etc/my.cnf
 
-  init:
-    container_name: "init"
-    restart: on-failure
-    build:
-      context: ./init
-      dockerfile: Dockerfile
-    depends_on:
-      - master_db
-      - slave_db1
-      - slave_db2
-    networks:
-      - network_db
-    volumes:
-      - ./config.json:/app/config.json
-
   nginxlb:
     container_name: "nginxlb"
     image: nginx:1.20.1
@@ -77,6 +62,21 @@ services:
       - init
     networks:
       - network_db
+
+  init:
+    container_name: "init"
+    restart: on-failure
+    build:
+      context: ./init
+      dockerfile: Dockerfile
+    depends_on:
+      - master_db
+      - slave_db1
+      - slave_db2
+    networks:
+      - network_db
+    volumes:
+      - ./config.json:/app/config.json
 
 networks:
   network_db:

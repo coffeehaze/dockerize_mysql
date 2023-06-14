@@ -21,13 +21,10 @@ secure-file-priv=/var/lib/mysql-files
 user=mysql
 
 # Set the unique server ID for replication purposes
-server-id=3
+server-id=2
 
 # Enable binary logging for replication purposes
 log_bin=1
-
-# Set the server to read-only mode to prevent any modifications
-read_only=1
 
 # Specify the file path for the process ID (PID) file
 pid-file=/var/run/mysqld/mysqld.pid
@@ -46,6 +43,11 @@ interactive_timeout=180
 
 # Set the maximum number of pending connections in the listen queue
 back_log=100
+
+# Replication Settings
+server-id=2
+log_bin=master-binlog
+binlog_format=ROW
 
 [mysql]
 # Disable auto-rehashing to improve performance when dealing with large result sets

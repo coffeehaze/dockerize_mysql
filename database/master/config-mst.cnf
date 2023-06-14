@@ -24,16 +24,10 @@ user=mysql
 server-id=1
 
 # Enable binary logging for replication purposes
-log_bin=1
+log_bin=/var/lib/mysql/mysql-bin.log
 
 # Set the binary log format to ROW for improved replication capabilities
 binlog_format=ROW
-
-# Disable writing updates to the binary log received from replication slaves
-log_slave_updates=OFF
-
-# Set the server to read-only mode to prevent any modifications
-read_only=1
 
 # Specify the file path for the process ID (PID) file
 pid-file=/var/run/mysqld/mysqld.pid

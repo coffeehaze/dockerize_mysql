@@ -44,12 +44,13 @@ def master_status(c):
 
 
 '''
-these function intended to executed from master cursor
+these function intended to executed from master / slave root cursor
 this is slave user preparation for each slaves database server
+and can be use too for create slave read only user
 '''
 
 
-def create_slave_user(c, user, password):
+def create_user(c, user, password):
     create_user_query = "CREATE USER %s@'%%' IDENTIFIED BY %s"
     try:
         c.execute(create_user_query, (user, password))
@@ -58,9 +59,23 @@ def create_slave_user(c, user, password):
         print(f"{error_code} - {error_message}")
         print(f"This slave {user} its already created")
 
+def create_user_to_host(c, user, password):
+    create_user_query = "CREATE USER {}@'%' IDENTIFIED BY '{}'"
+    try:
+        c.execute(create_user_query.format(user, password))
+    except pymysql.err.OperationalError as error:
+        error_code, error_message = error.args
+        print(f"{error_code} - {error_message}")
 
-def grant_privilege_slave_user(c, user):
-    # grant_privileges_query = "GRANT REPLICATION SLAVE ON *.* TO %s@'%%'"
+def create_database_if_not_exist(c, database_name):
+    create_database_query = "CREATE DATABASE IF NOT EXISTS `{}`"
+    try:
+        c.execute(create_database_query.format(database_name))
+    except pymysql.err.OperationalError as error:
+        error_code, error_message = error.args
+        print(f"Error executing query: {error_code} - {error_message}")
+
+def grant_read_privilege_user(c, user):
     grant_privileges_query = "GRANT SELECT ON *.* TO %s@'%%'"
     try:
         c.execute(grant_privileges_query, (user,))
@@ -68,8 +83,16 @@ def grant_privilege_slave_user(c, user):
         error_code, error_message = error.args
         print(f"Error executing query: {error_code} - {error_message}")
 
+def grant_privilege_user(c, user):
+    grant_privileges_query = "GRANT REPLICATION SLAVE ON *.* TO %s@'%%'"
+    try:
+        c.execute(grant_privileges_query, (user,))
+    except pymysql.err.OperationalError as error:
+        error_code, error_message = error.args
+        print(f"Error executing query: {error_code} - {error_message}")
 
-def flush_privilege_slave_user(c):
+
+def flush_privilege_user(c):
     flush_privileges_query = "FLUSH PRIVILEGES"
     try:
         c.execute(flush_privileges_query)
@@ -119,6 +142,16 @@ def slave_status(c):
         error_code, error_message = error.args
         print(f"Error executing query: {error_code} - {error_message}")
 
+def test(c, user):
+    grant_privileges_query = "GRANT CREATE USER ON *.* TO {}@'%'"
+    flush_privileges_query = "FLUSH PRIVILEGES"
+    try:
+        c.execute(grant_privileges_query.format(user))
+        c.execute(flush_privileges_query)
+    except pymysql.err.OperationalError as error:
+        error_code, error_message = error.args
+        print(f"Error executing query: {error_code} - {error_message}")
+
 
 def entry():
     json_data = read_json("config.json")
@@ -129,6 +162,7 @@ def entry():
     master_root_password = json_data['master']['master_database_root_password']
 
     master_cursor = connector(master_root_user, master_root_password, master_host, master_port)
+    test(master_cursor, master_root_user)
     ping(master_cursor)
 
     slaves = json_data['master']['slaves']
@@ -141,15 +175,24 @@ def entry():
         slave_user = slave['slave_user']['slave_db_user']
         slave_password = slave['slave_user']['slave_db_password']
 
-        create_slave_user(master_cursor, slave_user, slave_password)
-        grant_privilege_slave_user(master_cursor, slave_user)
-        flush_privilege_slave_user(master_cursor)
+        create_user(master_cursor, slave_user, slave_password)
+        grant_privilege_user(master_cursor, slave_user)
+        flush_privilege_user(master_cursor)
 
         slave_cursor = connector(slave_root_user, slave_root_password, slave_host, slave_port)
         (clog, cpos) = master_status(master_cursor)
         change_master(slave_cursor, master_host, master_root_user, master_root_password, clog, cpos)
         start_slave(slave_cursor)
         slave_status(slave_cursor)
+
+        for ro_user in json_data['master']['slave_read_only_users']:
+            ro_user_name = ro_user["slave_read_only_username"]
+            ro_user_pasw = ro_user["slave_read_only_password"]
+            create_user_to_host(master_cursor, ro_user_name, ro_user_pasw)
+            for db in ro_user["slave_read_only_to_databases"]:
+                create_database_if_not_exist(master_cursor, db)
+                grant_read_privilege_user(master_cursor, ro_user_name)
+            flush_privilege_user(master_cursor)
 
     master_status(master_cursor)
 
