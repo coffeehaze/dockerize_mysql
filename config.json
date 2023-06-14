@@ -31,6 +31,9 @@
           "svc1db",
           "svc2db",
           "svc3db"
+        ],
+        "read_only_grant_types": [
+          "SELECT"
         ]
       }
     ],

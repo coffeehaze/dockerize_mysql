@@ -7,8 +7,7 @@ Q_PING = "SELECT 1"
 Q_CREATE_DATABASE = "CREATE DATABASE IF NOT EXISTS `{}`"
 Q_CREATE_USER = "CREATE USER '{}'@'%' IDENTIFIED BY '{}'"
 Q_GRANT_REPLICATION_ON_SLAVE = "GRANT REPLICATION SLAVE ON *.* TO '{}'@'%'"
-Q_GRANT_READ_ON = "GRANT SELECT ON {}.* TO '{}'@'%'"
-Q_GRANT_WRITE_ON = "GRANT {} ON {}.* TO '{}'@'%'"
+Q_GRANT_TYPE_ON = "GRANT {} ON {}.* TO '{}'@'%'"
 Q_FLUSH_PRIVILEGES = "FLUSH PRIVILEGES"
 Q_CHANGE_MASTER = "CHANGE MASTER TO " \
                   "MASTER_HOST='{}', " \
@@ -76,16 +75,8 @@ class Master:
         except Exception as e:
             error_print(e)
 
-    def grant_privilege_read(self, username, database_name):
-        query = Q_GRANT_READ_ON.format(database_name, username)
-        print("*", query)
-        try:
-            self.c.execute(query)
-        except Exception as e:
-            error_print(e)
-
-    def grant_privilege_write(self, username, grant_type, database_name):
-        query = Q_GRANT_WRITE_ON.format(grant_type, database_name, username)
+    def grant_privilege_type(self, username, grant_type, database_name):
+        query = Q_GRANT_TYPE_ON.format(grant_type, database_name, username)
         print("*", query)
         try:
             self.c.execute(query)
@@ -216,7 +207,7 @@ def entry():
         for database_name in wo_user["write_only_databases"]:
             master.create_database(database_name)
             gt = ', '.join(wo_user["write_only_grant_types"])
-            master.grant_privilege_write(username=wo_username, grant_type=gt, database_name=database_name)
+            master.grant_privilege_type(username=wo_username, grant_type=gt, database_name=database_name)
             master.flush_privilege()
 
     print("\nPreparing read-only user")
@@ -226,7 +217,8 @@ def entry():
         master.create_user(username=ro_username, password=ro_password)
         for database_name in ro_user["read_only_databases"]:
             master.create_database(database_name)
-            master.grant_privilege_read(username=ro_username, database_name=database_name)
+            gt = ', '.join(ro_user["read_only_grant_types"])
+            master.grant_privilege_type(username=ro_username, grant_type=gt, database_name=database_name)
             master.flush_privilege()
 
 
