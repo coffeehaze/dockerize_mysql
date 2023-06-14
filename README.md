@@ -18,15 +18,16 @@
 - **master_db**:
     - This service represents the master database. It is responsible for handling data entry (WRITE operations).
         - ```context : ./database/master/Dockerfile```
-        - ```env : ./database/master/.env```
+        - ```env : ./database/master/.master.env```
         - ```config : ./database/master/master.cnf```
         - ```port : 3311:3306```
         - ```network : network_db```
         - ```volume : database_data_master```
+
 - **slave_db1**:
     - This service represents the first slave database. It is responsible for handling (READ operations).
         - ```context : ./database/slave/Dockerfile```
-        - ```env : ./database/slave/.env```
+        - ```env : ./database/slave/.slave1.env```
         - ```config : ./database/slave/slave1.cnf```
         - ```network : network_db```
         - ```volume : database_data_slave1```
@@ -34,7 +35,7 @@
 - **slave_db2**:
     - This service represents the second slave database. It is responsible for handling (READ operations).
         - ```context : ./database/slave/Dockerfile```
-        - ```env : ./database/slave/.env```
+        - ```env : ./database/slave/.slave2.env```
         - ```config : ./database/slave/slave2.cnf```
         - ```network : network_db```
         - ```volume : database_data_slave2```
