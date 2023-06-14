@@ -52,7 +52,7 @@
         "slave_database_host": "slave_db2",
         "slave_database_port": 3306,
         "slave_database_root_user": "root",
-        "slave_database_root_password": "LuCa7D8twrx@jXPE*2eAxZ*2NqyZ5Rsg",
+        "slave_database_root_password": "$QyGP@^%kPfn)B*v%HHd@GutZDXxPj*q",
         "slave_user": {
           "slave_db_user": "slave_user_db2",
           "slave_db_password": "!W2F76YjLp7MjW$%vGatqwDP(^2eM+!)"
