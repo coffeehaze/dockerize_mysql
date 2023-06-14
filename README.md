@@ -11,7 +11,7 @@
 
 
 -----------------------------------------------
-🌟 Thank you for visiting! 🌟
+<h5 align="center">🌟 Thank you for visiting! 🌟</h5>
 
 📚  Thank you for taking the time to explore this repository. We hope you found the information useful and insightful.
 
