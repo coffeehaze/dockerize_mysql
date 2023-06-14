@@ -42,7 +42,7 @@
         "slave_database_host": "slave_db1",
         "slave_database_port": 3306,
         "slave_database_root_user": "root",
-        "slave_database_root_password": "LuCa7D8twrx@jXPE*2eAxZ*2NqyZ5Rsg",
+        "slave_database_root_password": "AJqa+heUHV(PmCJ35amnC^XcCacM8h6r",
         "slave_user": {
           "slave_db_user": "slave_user_db1",
           "slave_db_password": "Q)3RnhYHpzAeVN(8wjMJ#@wI*F8xkb4J"
@@ -52,7 +52,7 @@
         "slave_database_host": "slave_db2",
         "slave_database_port": 3306,
         "slave_database_root_user": "root",
-        "slave_database_root_password": "LuCa7D8twrx@jXPE*2eAxZ*2NqyZ5Rsg",
+        "slave_database_root_password": "sT&9!AP7KJHC2J#4VFV$H53%WBRB5Wxq",
         "slave_user": {
           "slave_db_user": "slave_user_db2",
           "slave_db_password": "!W2F76YjLp7MjW$%vGatqwDP(^2eM+!)"
