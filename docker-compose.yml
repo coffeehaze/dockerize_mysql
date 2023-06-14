@@ -7,7 +7,7 @@ services:
       context: ./database/master
       dockerfile: Dockerfile
     env_file:
-      - ./database/master/.env
+      - ./database/master/.master.env
     ports:
       - 3311:3306
     networks:
@@ -23,7 +23,7 @@ services:
       context: ./database/slave
       dockerfile: Dockerfile
     env_file:
-      - ./database/slave/.env
+      - ./database/slave/.slave1.env
     networks:
       - network_db
     volumes:
@@ -37,7 +37,7 @@ services:
       context: ./database/slave
       dockerfile: Dockerfile
     env_file:
-      - ./database/slave/.env
+      - ./database/slave/.slave2.env
     networks:
       - network_db
     volumes:

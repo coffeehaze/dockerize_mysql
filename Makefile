@@ -54,8 +54,8 @@ master-env-generate:
 	echo "MYSQL_ROOT_PASSWORD=$${r_pasw}" >> ./database/master/.env
 
 slave-env-generate:
-	rm -rf ./database/slave/.env 
-	touch ./database/slave/.env
-	r_pasw=$$(echo | awk -F'"' '/slave_database_root_password/ { if (!printed) { print $$4; printed=1 } }' config.json); \
-	echo "MYSQL_GROUP_REPLICATION=FORCE_PLUS_PERMANENT" >> ./database/slave/.env; \
-	echo "MYSQL_ROOT_PASSWORD=$${r_pasw}" >> ./database/slave/.env
+	rm -rf ./database/slave/.slave$(ID).env
+	touch ./database/slave/.slave$(ID).env
+	r_pasw=$$(echo | awk -F'"' '/slave_database_root_password/ { a[++count] = $$4 } END { if (count >= 2) print a[$(ID)]; else print a[1] }' config.json); \
+	echo "MYSQL_GROUP_REPLICATION=FORCE_PLUS_PERMANENT" >> ./database/slave/.slave$(ID).env; \
+	echo "MYSQL_ROOT_PASSWORD=$${r_pasw}" >> ./database/slave/.slave$(ID).env
