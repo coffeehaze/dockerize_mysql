@@ -170,7 +170,7 @@ def entry():
 
     slaves = json_data['master']['slaves']
     for s in slaves:
-        print("\nPreparing slave host", s["slave_database_host"])
+        print("\nPreparing slave host {} {}".format(s["slave_database_host"], s["slave_database_root_password"]))
         slave_user = s['slave_user']['slave_db_user']
         slave_password = s['slave_user']['slave_db_password']
         master.create_user(username=slave_user, password=slave_password)
