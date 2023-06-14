@@ -9,19 +9,51 @@
 
 > This project explores the concept of Command Query Responsibility Segregation (CQRS) and demonstrates how to implement
 > it by using Docker to containerize MySQL replication. The system utilizes a load-balancing technique to distribute the
-> workload between multiple slave database servers for read operations, while maintaining a single master server for write
+> workload between multiple slave database servers for read operations, while maintaining a single master server for
+> write
 > operations.
 
 ### Docker-Compose Services Explanation
-- **master_db**: This service represents the master database. It is responsible for handling data entry (WRITE operations). It is built using the Dockerfile in the `./database/master` directory. It has its own environment file at `./database/master/.env` and is exposed on port `3311`. It is connected to the `network_db` network and has two volumes for data persistence: `database_data_master` and `./database/master/master.cnf` for the MySQL configuration file.
 
-- **slave_db1**: This service represents the first slave database. It is responsible for handling read operations. It is built using the Dockerfile in the `./database/slave` directory. It has its own environment file at `./database/slave/.env`. It is connected to the `network_db` network and has two volumes for data persistence: `database_data_slave1` and `./database/slave/slave1.cnf` for the MySQL configuration file.
+- **master_db**:
+    - This service represents the master database. It is responsible for handling data entry (WRITE operations).
+        - ```context : ./database/master/Dockerfile```
+        - ```env : ./database/master/.env```
+        - ```config : ./database/master/master.cnf```
+        - ```port : 3311:3306```
+        - ```network : network_db```
+        - ```volume : database_data_master```
+- **slave_db1**:
+    - This service represents the first slave database. It is responsible for handling (READ operations).
+        - ```context : ./database/slave/Dockerfile```
+        - ```env : ./database/slave/.env```
+        - ```config : ./database/slave/slave1.cnf```
+        - ```network : network_db```
+        - ```volume : database_data_slave1```
 
-- **slave_db2**: This service represents the second slave database. It has similar characteristics to `slave_db1`, but with a different container name, volume name (`database_data_slave2`), and configuration file (`./database/slave/slave2.cnf`).
+- **slave_db2**:
+    - This service represents the second slave database. It is responsible for handling (READ operations).
+        - ```context : ./database/slave/Dockerfile```
+        - ```env : ./database/slave/.env```
+        - ```config : ./database/slave/slave2.cnf```
+        - ```network : network_db```
+        - ```volume : database_data_slave2```
 
-- **nginxlb**: This service represents an Nginx load balancer. It is based on the `nginx:1.20.1` image. It exposes port `3310` and depends on the `master_db`, `slave_db1`, `slave_db2`, and `init` services. It is connected to the `network_db` network and has a volume for the Nginx configuration file at `./nginxlb/nginx.conf`.
+- **nginxlb**:
+    - This service represents as a Nginx load balancer.
+        - ```version : nginx:1.20.1```
+        - ```config : ./nginxlb/nginx.conf```
+        - ```port : 3310:3310```
+        - ```network : network_db```
 
-- **init**: This service is responsible for initializing the database replication setup. It is built using the Dockerfile in the `./init` directory. It depends on the `master_db`, `slave_db1`, and `slave_db2` services to ensure they are running before initialization. It is connected to the `network_db` network and has a volume for the `config.json` file at `./config.json`.
+- **init**:
+    - This service is responsible for initializing the database replication setup.
+        - ```context : ./init/Dockerfile```
+        - ```config : ./config.json```
+        - ```network : network_db```
+        - ```volume : database_data_slave2```
+
+-----------------------------------------------
 
 ### Possible command Makefile
 
@@ -39,10 +71,9 @@
 | master-env-generate | This command generates the environment file for the master database by creating a new file or overwriting an existing one. It retrieves the master database's root password from the `config.json` file and writes it along with the `MYSQL_GROUP_REPLICATION=FORCE_PLUS_PERMANENT` configuration to the environment file.                                                                                                                                                                                     |
 | slave-env-generate  | This command generates the environment file for the slave database by creating a new file or overwriting an existing one. It retrieves the slave database's root password from the `config.json` file and writes it along with the `MYSQL_GROUP_REPLICATION=FORCE_PLUS_PERMANENT` configuration to the environment file.                                                                                                                                                                                      |
 
-
 -----------------------------------------------
 
-<h3 align="center">🌟 Thank you for visiting! 🌟</h3>
+### Thank you
 
 -----------------------------------------------
 
