@@ -47,11 +47,11 @@ slave-ro-cmd:
 	docker exec -it $${host} mysql -u$${r_user} -p$${r_pasw}
 
 master-env-generate:
-	rm -rf ./database/master/.env 
-	touch ./database/master/.env
+	rm -rf ./database/master/.master.env
+	touch ./database/master/.master.env
 	r_pasw=$$(echo | awk -F'"' '/master_database_root_password/ { print $$4 }' config.json); \
-	echo "MYSQL_GROUP_REPLICATION=FORCE_PLUS_PERMANENT" >> ./database/master/.env; \
-	echo "MYSQL_ROOT_PASSWORD=$${r_pasw}" >> ./database/master/.env
+	echo "MYSQL_GROUP_REPLICATION=FORCE_PLUS_PERMANENT" >> ./database/master/.master.env; \
+	echo "MYSQL_ROOT_PASSWORD=$${r_pasw}" >> ./database/master/.master.env
 
 slave-env-generate:
 	rm -rf ./database/slave/.slave$(ID).env
