@@ -1,6 +1,6 @@
 # Dockerized MySQL Replication
 
-<img align="right" width="159px" src="https://raw.githubusercontent.com/xoxoist/asset/main/oni.png">
+<img align="right" width="159px" src="https://raw.githubusercontent.com/xoxoist/asset/main/dockerize_mysql.jpg">
 
 [![Documented](https://img.shields.io/badge/Documentation-Yes-green.svg)](https://github.com/xoxoist/dockerize_mysql)
 [![Maintained](https://img.shields.io/badge/Maintained-Yes-green.svg)](https://github.com/xoxoist/dockerize_mysql)
@@ -11,7 +11,9 @@ it by using Docker to containerize MySQL replication. The system utilizes a load
 workload between multiple slave database servers for read operations, while maintaining a single master server for
 write operations.
 
-Oni Mask art by [@inksyndromeartwork](https://www.freepik.com/author/inksyndromeartwork)
+
+Dolphin art by [@catalyststuff](https://www.freepik.com/author/catalyststuff)
+
 
 ## Contents
 
