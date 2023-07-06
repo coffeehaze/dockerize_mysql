@@ -1,17 +1,19 @@
-<h1 align="center">Dockerized MySQL Replication 👋</h1>
-<p>
-  <a href="#" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-  </a>
-  <img alt="documentation: yes" src="https://img.shields.io/badge/Documentation-Yes-green.svg" />
-  <img alt="maintained: yes" src="https://img.shields.io/badge/Maintained-Yes-green.svg" />
-</p>
+# Dockerized MySQL Replication
 
-> This project explores the concept of Command Query Responsibility Segregation (CQRS) and demonstrates how to implement
-> it by using Docker to containerize MySQL replication. The system utilizes a load-balancing technique to distribute the
-> workload between multiple slave database servers for read operations, while maintaining a single master server for
-> write
-> operations.
+<img align="right" width="159px" src="https://raw.githubusercontent.com/xoxoist/asset/main/oni.png">
+
+[![Documented](https://img.shields.io/badge/Documentation-Yes-green.svg)](https://github.com/xoxoist/dockerize_mysql)
+[![Maintained](https://img.shields.io/badge/Maintained-Yes-green.svg)](https://github.com/xoxoist/dockerize_mysql)
+[![License](http://img.shields.io/badge/license-mit-blue.svg)](https://raw.githubusercontent.com/xoxoist/dockerize_mysql/main/LICENSE)
+
+This project explores the concept of Command Query Responsibility Segregation (CQRS) and demonstrates how to implement
+it by using Docker to containerize MySQL replication. The system utilizes a load-balancing technique to distribute the
+workload between multiple slave database servers for read operations, while maintaining a single master server for
+write operations.
+
+Oni Mask art by [@inksyndromeartwork](https://www.freepik.com/author/inksyndromeartwork)
+
+## Contents
 
 ### Configuration data
 Please consider change the database credential, read only user will available in every slave database sever
